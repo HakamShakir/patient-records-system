@@ -1,11 +1,8 @@
-package SystemForPatients;
-
 public enum Position {
 
 	SURGEON,
 	PHARMACIST,
-	DENETIST,
+	DENTIST,
 	INTERN,
 	PARADEMIC,
-	NURSE;
 }
