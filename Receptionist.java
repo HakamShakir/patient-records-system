@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.jar.JarException;
 import java.util.stream.Collectors;
 import java.lang.reflect.Array;
 import java.text.ParseException;
@@ -102,23 +103,32 @@ public class Receptionist extends User{
 
 	
 	
-	public Optional<List<Object>> searchByName(List<PatientRecord>  records) {
+	public Optional<List<PatientRecord>> searchByName(List<PatientRecord>  records) {
 		
 		
-     List<Object> d = records.stream().filter(p -> p.name().equals(patientName)).collect(Collectors.toList());
+     List<PatientRecord> d = records.stream().filter(p -> p.name().equals(patientName)).collect(Collectors.toList());
 	
 		return Optional.ofNullable(d);
 		
 	}
 	
 	
-	
+	public void printSearching(Optional<List<Object>> o) {
+		
+			if(!o.isEmpty()) {
+			System.out.println(o.toString());
+			}else {
+				o.get();
+			}
+		
+		
+	}
 	
 
 	
 	public void removeByName(List<PatientRecord>  records) {
 		
-		Optional<List<Object>> searchByName = searchByName(records);
+		Optional<List<PatientRecord>> searchByName = searchByName(records);
 		records.remove(searchByName);
 		
 	}
