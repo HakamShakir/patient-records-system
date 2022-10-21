@@ -1,4 +1,4 @@
-package SystemForPatients;
+package updated_system;
 
 public enum Position {
 
