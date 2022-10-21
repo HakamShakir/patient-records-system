@@ -7,4 +7,12 @@ public record PatientRecord (String name, String surName, Gender gender, LocalDa
 		int patientId, int drId ,int age) {
 
 	
+	
+	public int getAge() {
+		
+		LocalDate d = LocalDate.now();
+		return d.getYear()-dOB.getYear();
+	
+	}
+	
 	}

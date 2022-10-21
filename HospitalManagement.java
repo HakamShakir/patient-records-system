@@ -34,7 +34,7 @@ public class HospitalManagement extends User{
 	}
 	public void removePatientById(List<PatientRecord> p) {
 		
-		prd.stream().filter(p -> p.patientId() == ids).collect(Collectors.toList()).removeAll(prd);
+		p.stream().filter(p -> p.patientId() == ids).collect(Collectors.toList()).removeAll(p);
 		
 	}
 	

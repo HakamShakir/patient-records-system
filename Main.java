@@ -12,9 +12,9 @@ public class Main {
 	public static void main(String [] args) throws DateTimeParseException {
 		
 	
-//		LocalDate d = LocalDate.of(2022, 2, 1);
-//		PatientRecord p = new PatientRecord("hug", "huyg", Gender.FEMALE,d,"ygtffg", 0, 0, 2);
-//				System.out.println(p.age());
+		LocalDate d = LocalDate.of(2000, 2, 1);
+		PatientRecord p = new PatientRecord("hug", "huyg", Gender.FEMALE,d,"ygtffg", 0, 0,0);
+		System.out.println(p.getAge());
 		
 //		 Scanner in = new Scanner(System.in);
 //		 String gender = in.next();
@@ -30,9 +30,9 @@ public class Main {
 //			}
 //	}
 
-		Receptionist c = new Receptionist("skjdhf", null, null, null, null, null, 0, 0, 0);
-		c.enterPatientName();
-		
-		System.out.println(c.getPatientName());
+//		Receptionist c = new Receptionist("skjdhf", null, null, null, null, null, 0, 0, 0);
+//		c.enterPatientName();
+//		
+//		System.out.println(c.getPatientName());
 	}
 }
