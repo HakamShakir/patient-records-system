@@ -1,5 +1,3 @@
-package SystemForPatients;
-
 public enum Position {
 
 	SURGEON,

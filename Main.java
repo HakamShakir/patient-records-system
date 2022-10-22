@@ -1,11 +1,10 @@
 
+
 public class Main {
 
-	public static void main(String[] args) {
-
-		DataEnterist e = new DataEnterist("tara", Gender.FEMALE, Position.NURSE, 38, 12, 16, 20);
-		Doctor et = new Doctor("tara", Gender.FEMALE, Position.NURSE, 38, 12, 16, 20, "wow", "whew");
-		System.out.println(e.toString());
+	public static void main(String [] args) {
+		
+		Doctor et = new Doctor("hasansabah","password","hasan salah","07501234567",Gender.FEMALE, Position.DENTIST,48,1,1600,20,"maxillofacial surgeon");
 		System.out.println(et.toString());
 	}
 }
