@@ -1,69 +1,66 @@
 package creating_views;
+
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
-public class Doctors implements Serializable {
 
-    
+public class Doctor extends User  implements Serializable{
+
+
+	private static final long serialVersionUID = 5L;
+	private int  yearsOfExperience;
+	private String  speciality;
+	Position position;
+
 	
-    private static final long serialVersionUID = 1L;
+	public Doctor(String username,String password,String name,String phoneno ,Gender gender, Position position, int age, int id, int salary, int yearsOfExperience, String speciality) {
+		super(username ,password,name, phoneno,gender, age, id, salary);
+		
+		this.yearsOfExperience = yearsOfExperience;
+		this.speciality = speciality;
+		this.position = position;
+		
+	}
+		
+	public int getYearsOfExperience() {
+		return yearsOfExperience;
+	}
 
-    private List<Doctor> doctors;
-   
-    
 
-    public Doctors(List<Doctor> doctors) {
-        this.doctors = doctors;
-    }
+	public void setYearsOfExperience(int yearsOfExperience) {
+		this.yearsOfExperience = yearsOfExperience;
+	}
 
+	public String getSpeciality() {
+		return speciality;
+	}
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
+	}
 
-   public void addDr(String username, String password, String name, String phoneno, Gender gender, 
-    		Position position, int age,
-            int id, int salary, int yearsOfExperience, String speciality) throws Exception {
-        	
-        	
-        	doctors.add(new Doctor(username, password, name, phoneno, gender, position, age, id, salary, yearsOfExperience,speciality));
-        
-    }
-
-    public Optional<List<Doctor>> searchDrByName(String drName) {
-        
-    	List<Doctor> d = doctors
-		    			.stream()
-		        		.filter(dr -> dr.getName().equals(drName))
-		        		.collect(Collectors.toList());
-        
-        return Optional.ofNullable(d);
-    }
-
-    public void removeDrById(int ids) {
-        doctors.removeIf(p -> p.getId() == ids);
-    }
-
-    public List<String> getDrNames() {
-        List<String> DrNames = new ArrayList<>();
-        doctors
-        .forEach(doctor -> DrNames.add(doctor.getName()));
-        return DrNames;
-    }
-
-    public void viewDoctors() {
-        if(!doctors.isEmpty()) {
-        doctors.forEach(System.out::println);
-        }else {
-        	System.out.println("no doctor has been entered yet.");
-        }
-    }
-
-     public void printSearching(Optional<List<Doctor>> o) {
-
-     if(!o.isEmpty()) {
-     System.out.println(o.toString());
-     }else {
-     o.get();
-     }}
-
+	@Override
+	public String toString() {
+		return 	"Doctor" +super.toString()+"yearsOfExperience=" + yearsOfExperience + ", speciality="+ speciality + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash( speciality, yearsOfExperience);
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Doctor other = (Doctor) obj;
+		return   Objects.equals(speciality, other.speciality)
+				&& yearsOfExperience == other.yearsOfExperience;
+	}
+	
 }
