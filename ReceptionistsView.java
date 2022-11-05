@@ -153,9 +153,6 @@ import creating_views.ResourceManager;
 	
 	
 	
-//	public void deletePatientsDataById() throws Exception {
-//		PatientRecords pr = (PatientRecords) ResourceManager.load("C:\\Users\\96478\\eclipse-workspace\\applications2\\patientrecords.ser");
-//		pr.removePatientRecordById(ids);
-//	}
+
 	
 }
