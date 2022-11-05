@@ -1,12 +1,14 @@
-package SystemForPatients;
+package creating_views;
+
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 //import java.util.Scanner;
 import java.util.stream.Collectors;
+
+
 
 public class PatientRecords implements Serializable  {
 	
@@ -14,20 +16,22 @@ public class PatientRecords implements Serializable  {
 	 * 
 	 */
 	private static final long serialVersionUID = 3L;
-	List<PatientRecord> patientrecords;
+	private List<PatientRecord> patientrecords;
+	
 	//private Scanner in = new Scanner(System.in);
-	private int ids;
-	private String patientName;
+	
+	private boolean add;
 	
 	
     public PatientRecords(List<PatientRecord> patientrecords) {
         this.patientrecords = patientrecords;
     }
 	
-    void addPatientRecord(String name, String surName, Gender gender, LocalDate dOB, String phoneno,int patientId, int drId )  {
-    	PatientRecord r = new PatientRecord( name,  surName,  gender,  dOB,  phoneno, patientId,  drId );
-    	patientrecords.add(r);
-    }
+   public void addPatientRecord(String name, String surName, Gender male, LocalDate dOB, String phoneno,int patientId, int drId ,int age) throws Exception  {
+    	
+    	patientrecords.add(new PatientRecord( name, surName, male, dOB, phoneno , patientId, drId , age));
+    	
+   }
     
 //	public void enterId() {
 //		System.out.println("enter the id that you wanna perform an operation on it: ");
@@ -64,15 +68,24 @@ public class PatientRecords implements Serializable  {
     
     */
 	
-	public Optional<List<PatientRecord>> searchPatientRecordByName(){
+	public Optional<List<PatientRecord>> searchPatientRecordByName(String patientName){
 	     List<PatientRecord> d = patientrecords.stream().filter(pt -> pt.name().equals(patientName)).collect(Collectors.toList());
-		return Optional.ofNullable(d);
+	     return Optional.ofNullable(d);
+		
+	}
+	public Optional<List<PatientRecord>> searchPatientRecordBydrId(int drId){
+	     List<PatientRecord> d = patientrecords.stream().filter(pt -> pt.drId() == drId).collect(Collectors.toList());
+	     return Optional.ofNullable(d);
 		
 	}
 	
-	public void removePatientRecordById() {
+	public boolean isThePatientExistById(int pId) {
+		 return patientrecords.stream().anyMatch(p -> p.patientId() == pId);
+	}
+	
+	public void removePatientRecordById(int ids) {
 		patientrecords.stream().filter(p -> p.patientId() == ids).collect(Collectors.toList()).removeAll(patientrecords);
-}
+												}
 	
     public List<String> getPatientNames() {
         List<String> PatientNames = new ArrayList<>();
@@ -81,17 +94,27 @@ public class PatientRecords implements Serializable  {
     }
     
 	public void viewRecords(){
-		patientrecords.stream().forEach(System.out:: println);
 		
+		patientrecords.forEach(System.out:: println);
+	
+	}
+	
+	public boolean isAdd() {
+		return add;
 	}
 
-	//public void printSearching(Optional<List<Object>> o) {
+	
+
+	
+
+	public void printSearching(Optional<List<PatientRecord>> o) {
 		
-	//	if(!o.isEmpty()) {
-	//	System.out.println(o.toString());
-	//	}else {
-	//		o.get();
-	//	}
+		if(!o.isEmpty()) {
+		System.out.println(o.toString());
+		}else {
+			o.get();
+		}
+		}
 
 	
 }

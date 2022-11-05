@@ -1,4 +1,5 @@
-package SystemForPatients;
+package creating_views;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,8 @@ public class Receptionists implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4L;
-	List<Receptionist> receptionists;
-	private String receptionistName;
-	private int ids;
+	private List<Receptionist> receptionists;
+	
 //	private Scanner in = new Scanner(System.in);
 	
 //	public void enterId() {
@@ -31,19 +31,22 @@ public class Receptionists implements Serializable {
         this.receptionists = receptionists;
     }
 
-    void addReceptionist(String username,String password,String name,String phoneno, Gender gender, Position position, int age, int id, int salary)  {
-    	Receptionist r = new Receptionist(username, password, name, phoneno, gender, position, age, id, salary);
-    	receptionists.add(r);
+    public void addReceptionist(String username,String password,String name,String phoneno, Gender gender,  int age, int id, int salary) throws Exception  {
+    	
+    	receptionists.add(new Receptionist(username, password, name, phoneno, gender, age, id, salary));
+    	
+		
+		
     }
 	
-	public Optional<List<Receptionist>> searchReceptionistByName(){
+	public Optional<List<Receptionist>> searchReceptionistByName(String receptionistName){
 	     List<Receptionist> r = receptionists.stream().filter(receptionist -> receptionist.getName().equals(receptionistName)).collect(Collectors.toList());
 		return Optional.ofNullable(r);
 	}
 	
-	public void removeReceptionistById() {
-		receptionists.stream().filter(r -> r.getId() == ids).collect(Collectors.toList()).removeAll(receptionists);
-}
+	public void removeReceptionistById(int id) {
+		receptionists.removeIf(r -> r.getId() == id);
+										 }
 	
     public List<String> getReceptionistNames() {
         List<String> receptionistNames = new ArrayList<>();
@@ -52,15 +55,21 @@ public class Receptionists implements Serializable {
     }
 
 	public void viewReceptionists(){
-		receptionists.stream().forEach(System.out:: println);
-	}
-	//public void printSearching(Optional<List<Object>> o) {
+		if(!receptionists.isEmpty()) {
+		receptionists.forEach(System.out:: println);
+		}else{
+			System.out.println("no receptionist entered yet");
+			System.exit(0);
+		}
 		
-	//	if(!o.isEmpty()) {
-	//	System.out.println(o.toString());
-	//	}else {
-	//		o.get();
-	//	}
+	}
 	
+	public void printSearching(Optional<List<Receptionist>> o) {
 
+	     if(!o.isEmpty()) {
+	     System.out.println(o.toString());
+	     }else {
+	     o.get();
+	     }}
+	
 }

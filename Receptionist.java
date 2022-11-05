@@ -1,19 +1,16 @@
-package SystemForPatients;
-
-
+package creating_views;
 
 public class Receptionist extends User{
 	
 
 	private static final long serialVersionUID = 8904255995808065269L;
 
-	public Receptionist(String username,String password,String name,String phoneno, Gender gender, Position position, int age, int id, int salary) {
-		super(username,password,name,phoneno, gender, position, age, id, salary);
+	public Receptionist(String username,String password,String name,String phoneno, Gender gender, int age, int id, int salary)
+	{
 		
+		super(username ,password,name, phoneno,gender, age, id, salary);
 	}
 
-
-	
 	public void showRecord() {
 		System.out.println(getName());
 		System.out.println(getPhoneno());
@@ -43,5 +40,3 @@ public class Receptionist extends User{
 
 	
 }
-	
-

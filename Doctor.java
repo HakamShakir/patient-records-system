@@ -1,20 +1,26 @@
-package SystemForPatients;
+package creating_views;
 
+
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Doctor extends User  {
+public class Doctor extends User  implements Serializable{
 
 
 	private static final long serialVersionUID = 5L;
 	private int  yearsOfExperience;
 	private String  speciality;
+	Position position;
 
 	
 	public Doctor(String username,String password,String name,String phoneno ,Gender gender, Position position, int age, int id, int salary, int yearsOfExperience, String speciality) {
-		super(username ,password,name, phoneno,gender, position, age, id, salary);
+		super(username ,password,name, phoneno,gender, age, id, salary);
+		
 		this.yearsOfExperience = yearsOfExperience;
 		this.speciality = speciality;
+		this.position = position;
+		
 	}
 		
 	public int getYearsOfExperience() {
@@ -60,4 +66,3 @@ public class Doctor extends User  {
 
 
 }
-

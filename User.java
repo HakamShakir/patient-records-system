@@ -1,4 +1,4 @@
-package SystemForPatients;
+package creating_views;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,15 +13,13 @@ public class User implements Serializable {
 	private String name, username, password, phoneno;
 	private int age, id, salary;
 
-	public User(String username, String password, String name, String phoneno, Gender gender, Position position,
-			int age, int id, int salary) {
+	public User(String username, String password, String name, String phoneno, Gender gender, int age, int id, int salary) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.phoneno = phoneno;
 		this.name = name;
 		this.gender = gender;
-		this.position = position;
 		this.age = age;
 		this.id = id;
 		this.salary = salary;

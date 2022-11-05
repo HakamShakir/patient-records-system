@@ -1,4 +1,4 @@
-package SystemForPatients;
+package creating_views;
 
 import java.io.ObjectInputStream; 
 import java.io.ObjectOutputStream; 
