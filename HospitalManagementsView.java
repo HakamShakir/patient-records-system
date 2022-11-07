@@ -38,7 +38,6 @@ import creating_views.Receptionists;
 			"-------Enter 6 to return all patients names------- \n"+
 			"-------Enter 7 to add Dr info------- \n"+
 			"-------Enter 8 to add Receptionist info------- \n"+
-			"-------Enter 8 to add Receptionist info------- \n"+
 			"-------Enter 9 to search Receptionist by name------- \n"+
 			"-------Enter 10 to remove Receptionist by id------- \n"+
 			"-------Enter 11 to get only receptionists names------- \n"+
