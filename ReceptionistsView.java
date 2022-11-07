@@ -24,18 +24,18 @@ import creating_views.ResourceManager;
 		
 		
 		while(true) {
-			System.out.println("enter the values that are dedicated to the :" +
-			"-------operations that you want---------- " + 
-			"-------Enter 1 to add patient Record -------"+
-			"-------Enter 2 to view patient Records without their visits details-------"+
-			"-------Enter 3 to view patient visits by their patientId-------" +
-			"-------Enter 4 to view visits by their dr Id-------"+
-			"-------Enter 5 to view Patient Visits by their Date of submission-------"+
-			"-------Enter 6 to search patient record by name-------"+
-			"-------Enter 7 to return all patients names-------"+
-			"-------Enter 8 to remove patient Record by Id-------"+
-			"-------------------------------------------------------------------------"+
-			"if you want to exit this program please enter 0:");
+			System.out.println("enter the values that are dedicated to the : \n" +
+			"-------operations that you want---------- \n" + 
+			"-------Enter 1 to add patient Record ------- \n"+
+			"-------Enter 2 to view patient Records without their visits details------- \n"+
+			"-------Enter 3 to view patient visits by their patientId------- \n" +
+			"-------Enter 4 to view visits by their dr Id------- \n"+
+			"-------Enter 5 to view Patient Visits by their Date of submission------- \n"+
+			"-------Enter 6 to search patient record by name------- \n"+
+			"-------Enter 7 to return all patients names------- \n"+
+			"-------Enter 8 to remove patient Record by Id------- \n"+
+			"------------------------------------------------------------------------- \n"+
+			"if you want to exit this program please enter 0: \n");
 			
 			String options = in.next();
 			
