@@ -1,4 +1,9 @@
 package login_package;
+import login_package.Lists;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,66 +25,68 @@ import creating_views.ResourceManager;
 	
 	
 	
-	protected ReceptionistsView(String userName, String Password) throws Exception  {
+	protected ReceptionistsView(String userName, String Password,PrintWriter out,BufferedReader in) throws Exception  {
 		
 		
 		while(true) {
-			System.out.println("enter the values that are dedicated to the : \n" +
-			"-------operations that you want---------- \n" + 
-			"-------Enter 1 to add patient Record ------- \n"+
-			"-------Enter 2 to view patient Records without their visits details------- \n"+
-			"-------Enter 3 to view patient visits by their patientId------- \n" +
-			"-------Enter 4 to view visits by their dr Id------- \n"+
-			"-------Enter 5 to view Patient Visits by their Date of submission------- \n"+
-			"-------Enter 6 to search patient record by name------- \n"+
-			"-------Enter 7 to return all patients names------- \n"+
-			"-------Enter 8 to remove patient Record by Id------- \n"+
-			"------------------------------------------------------------------------- \n"+
-			"if you want to exit this program please enter 0: \n");
-			
-			String options = in.next();
+			out.println("enter the values that are dedicated to the :  \n" +
+			"-------operations that you want----------  \n" + 
+			"-------Enter 1 to add patient Record -------\n"+
+			"-------Enter 2 to view patient Records without their visits details-------  \n"+
+			"-------Enter 3 to view patient visits by their patientId-------  \n" +
+			"-------Enter 4 to view visits by their dr Id-------  \n"+
+			"-------Enter 5 to view Patient Visits by their Date of submission-------  \n"+
+			"-------Enter 6 to search patient record by name-------  \n"+
+			"-------Enter 7 to return all patients names-------  \n"+
+			"-------Enter 8 to remove patient Record by Id-------  \n"+
+			"-------------------------------------------------------------------------  \n"+
+			"if you want to exit this program please enter 0:  \n");
+			out.println("###");
+			String options = in.readLine();
 			
 			switch(options){
 				
 			case "1" :
-				this.addPatient();
+				this.addPatient(out,in);
 				break;
 			
 			case "2" :
-				pr.viewRecords();
+				pr.viewRecords(out);
 				break;
 			
 			case "3":
 			
-				pv.viewVisitsBypId(enterId());
+				pv.viewVisitsBypId(enterId(out,in));
 				break;
 				
 			case "4":
 				
-				pv.viewVisitsBydrId(enterId());;
+				pv.viewVisitsBydrId(enterId(out,in));;
 				break;
 			
 			case "5":
-				System.out.println("enter date of submission in M/d/yyyy format: ");
+				out.println("enter date of submission in M/d/yyyy format: ");
 			    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
-			    String userInput = in.next();
+				out.println("###");
+			    String userInput = in.readLine();
 				LocalDate dateOfSubmission = LocalDate.parse(userInput , dateFormat);
 				pv.viewVisitsByDateOfSubmission(dateOfSubmission);
 				break;
 			
 			case "6" :
 				System.out.println("Enter the patient's name :");
-				String pName = in.next();
+				out.println("###");
+				String pName = in.readLine();
 				Optional<List<PatientRecord>> searchPatientByName = pr.searchPatientRecordByName(pName);
-				pr.printSearching(searchPatientByName);
+				pr.printSearching(searchPatientByName,out);
 				break;
 			
 			case "7":
-				pr.getPatientNames().forEach(System.out :: println);
+				pr.getPatientNames().forEach(out :: println);
 				break;
 			
 			case "8":
-				int id = enterId();
+				int id = enterId(out,in);
 				if(pr.isThePatientExistById(id)) {
 				pr.removePatientRecordById(id);
 				pv.removePatientVisitByPatientId(id);
@@ -94,46 +101,51 @@ import creating_views.ResourceManager;
 				break;
 			
 			default:
-				System.out.println("please enter a valid option.");
+				out.println("please enter a valid option.");
 			}
 			
 		}
 		
 	}
 	
-	public void addPatient() throws Exception {
+	public void addPatient(PrintWriter out,BufferedReader in) throws Exception {
 		
-		System.out.println("enter the patient info's");
+		out.println("enter the patient info's");
 		
-		System.out.println("enter the patient Id:");
-		int patientId = in.nextInt();
+		out.println("enter the patient Id:");
+		out.println("###");
+		int patientId =Integer.parseInt(in.readLine());
 		
-		System.out.println("name: " );
-		String name = in.next();
+		out.println("name: " );
+		out.println("###");
+		String name = in.readLine();
 		
-		System.out.println("surName: ");
-		String surName = in.next();
+		out.println("surName: ");
+		out.println("###");
+		String surName = in.readLine();
 		 
-	    System.out.println("DR ID: ");
-	    int drId = in.nextInt();
+	    out.println("DR ID: ");
+		out.println("###");
+	    int drId = Integer.parseInt(in.readLine());
 	
-	    System.out.println("phone Number:");
-	    String phoneNum = in.next();
+	    out.println("phone Number:");
+		out.println("###");
+	    String phoneNum = in.readLine();
 	    
-	    System.out.println("enter DOB in M/d/yyyy format: ");
+	    out.println("enter DOB in M/d/yyyy format: ");
 	    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
-	    String userInput = in.next();
+		out.println("###");
+	    String userInput = in.readLine();
 		LocalDate DOB = LocalDate.parse(userInput , dateFormat);
 		
-		System.out.println("enter gender:");
-		String g = in.next();
+		out.println("enter gender:");
+		out.println("###");
+		String g = in.readLine();
 		Gender gender = Gender.valueOf(g.toUpperCase());
 		
 		int age = d.getYear()-DOB.getYear();
 		
-//		patientRecord.add(new PatientRecord(name, surName, gender, DOB, phoneNum, patientId, drId, age));
 		pr.addPatientRecord(name, surName, gender, DOB, phoneNum, patientId, drId, age);
-		ResourceManager.save(pr, "PatientRecords.ser");
 		
 	}
 	public void viewPatientData() throws Exception {
@@ -145,14 +157,18 @@ import creating_views.ResourceManager;
 	
 	
 	
-	public int enterId() {
-		System.out.println("enter the id that you wanna perform an operation on it: ");
-		int ids = in.nextInt();
+	public int enterId(PrintWriter out,BufferedReader in) throws NumberFormatException, IOException {
+		out.println("enter the id that you wanna perform an operation on it: ");
+		out.println("###");
+		int ids = Integer.parseInt(in.readLine());
 		return ids;
 	}
 	
 	
 	
-
+//	public void deletePatientsDataById() throws Exception {
+//		PatientRecords pr = (PatientRecords) ResourceManager.load("C:\\Users\\96478\\eclipse-workspace\\applications2\\patientrecords.ser");
+//		pr.removePatientRecordById(ids);
+//	}
 	
 }
