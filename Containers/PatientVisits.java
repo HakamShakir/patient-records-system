@@ -1,5 +1,6 @@
 package creating_views;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,9 +17,7 @@ public class PatientVisits  implements Serializable{
 	private static final long serialVersionUID = 2L;
 	private List<PatientVisit> patientvisits;
 	
-	//private Scanner in = new Scanner(System.in);
 
-	
 	
     
 	public PatientVisits(List<PatientVisit> pv) {
@@ -27,92 +26,58 @@ public class PatientVisits  implements Serializable{
 	
     
     public void addPatientVisit(int pId,int drId ,String chiefComplaint, String history, String treatement, String recommendation,LocalDate DateOfSubmission ,String duration, double price ,int visitId) throws Exception  {
-    	
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
     	patientvisits.add(new PatientVisit( pId,  drId,visitId, chiefComplaint,  history,  treatement ,recommendation,DateOfSubmission,duration,price));
+    	ResourceManager.save((Serializable) patientvisits, "files\\patientrecords.ser");
     }
     
 	
-	//public void enterId() {
-		//System.out.println("enter the id that you wanna perform an operation on it: ");
-		//ids = in.nextInt();
-	//}
-
-
-   /* void addpatientVisit()  {
-    	enterId();
-    	int pId=ids;
-    	System.out.println("enter drId ID:");
-		int drId = in.nextInt();
-		System.out.println("enter cheif complaint: ");
-		String chiefComplaint = in.next();
-		System.out.println("enter history of the patient: ");
-		String history = in.next();
-		System.out.println("enter the vitals: ");
-		String vitals = in.next();
-		System.out.println("enter the investigation: ");
-		String investigation = in.next();
-		System.out.println("enter treatments: ");
-		String treatments = in.next();
-		System.out.println("enter recommendation: ");
-		String recommendation = in.next();
-		System.out.println("enter duration: ");
-		String duration = in.next();
-		
-		System.out.println("enter Date Of Submission in M/d/yyyy format: ");
-	    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
-	    String userInput = in.next();
-		LocalDate DateOfSubmission = LocalDate.parse(userInput , dateFormat);
-		
-		System.out.println("enter the price: ");
-		double price = in.nextDouble();
-		
-		patientvisits.add(new PatientVisit(pId,drId, chiefComplaint, history, vitals, investigation, treatments, recommendation, DateOfSubmission, duration, price));
-    }*/
 	
 	
-    public Optional<List<PatientVisit>> searchPatientVisitByDateOfSubmission(LocalDate d){
+    public Optional<List<PatientVisit>> searchPatientVisitByDateOfSubmission(LocalDate d) throws Exception{
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
+
 	    List<PatientVisit> p = patientvisits.stream().filter(pv -> pv.DateOfSubmission().equals(d)).collect(Collectors.toList());
 		return Optional.ofNullable(p);
 		
 	}
 	
 	
-	public Optional<List<PatientVisit>> searchPatientVisitBypId(int pId){
+	public Optional<List<PatientVisit>> searchPatientVisitBypId(int pId) throws Exception{
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
 	    List<PatientVisit> p = patientvisits.stream().filter(pv -> pv.pId()==pId).collect(Collectors.toList());
 		return Optional.ofNullable(p);
 		
 	}
 	
 	
-	public Optional<List<PatientVisit>> searchPatientVisitBydrId(int drId){
-		
+	public Optional<List<PatientVisit>> searchPatientVisitBydrId(int drId) throws Exception{
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
 		List<PatientVisit> p = patientvisits.stream().filter(pv -> pv.drId()==drId).collect(Collectors.toList());
 		return Optional.ofNullable(p);
 		
 	}
 	
 	
-	public void removePatientVisitByPatientId(int ids) {
-		//patientvisits.stream().filter(p -> (p.pId()) == ids).collect(Collectors.toList()).removeAll(patientvisits);
+	public void removePatientVisitByPatientId(int ids) throws Exception {
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
 		patientvisits.removeIf(p -> p.pId() == ids);
-	
+    	ResourceManager.save((Serializable) patientvisits, "files\\patientrecords.ser");
+
 	
 	}
 	
-//   public List<String> getPatientNames() {
-//        List<String> PatientNames = new ArrayList<>();
-//        patientrecords.forEach(p -> PatientNames.add(p.name()));
-//        return PatientNames;
-//   }
-    
 	
-	public void viewVisits(){
+	public void viewVisits() throws Exception{
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
+
 		patientvisits.forEach(System.out:: println);
 	}
 	
 	
-	public void viewVisitsBypId(int pId){
-		
+	public void viewVisitsBypId(int pId) throws Exception{
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
+
 		Optional<List<PatientVisit>> p = searchPatientVisitBypId(pId);
 		if(!p.isEmpty()) {
 			System.out.println(p.toString());
@@ -122,7 +87,9 @@ public class PatientVisits  implements Serializable{
 	}
 	
 	
-	public void viewVisitsBydrId(int drId){
+	public void viewVisitsBydrId(int drId) throws Exception{
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
+
 		Optional<List<PatientVisit>> p = searchPatientVisitBydrId(drId);
 		if(!p.isEmpty()) {
 			System.out.println(p.toString());
@@ -131,21 +98,63 @@ public class PatientVisits  implements Serializable{
 			}
 	}
 	
-	public void viewVisitsByDateOfSubmission(LocalDate dateOfSubmission){
+	
+	public void viewVisitsBypId(int drId, PrintWriter out) throws Exception {
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
+
+		Optional<List<PatientVisit>> p = searchPatientVisitBydrId(drId);
+		if(!p.isEmpty()) {
+			out.println(p.toString());
+			}else {
+				p.get();
+			}
+		
+	}
+	
+	public void viewVisitsByDateOfSubmission(LocalDate dateOfSubmission) throws Exception{
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
+
 		Optional<List<PatientVisit>> p = searchPatientVisitByDateOfSubmission(dateOfSubmission);
 		if(!p.isEmpty()) {
 			System.out.println(p.toString());
 			}else {
 				p.get();
-			}}
+			}
+		}
 	
-	public void removePatientVisitsByVisitId(int vId) {
-		
+	public void removePatientVisitsByVisitId(int vId) throws Exception {
+    	patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
 		patientvisits.removeIf(pv -> pv.visitId() == vId);
+    	ResourceManager.save((Serializable) patientvisits, "files\\patientrecords.ser");
+
 			
 		}
 
 
-	
+	public void viewVisitsByDateOfSubmission(LocalDate dateOfSubmission, PrintWriter out) throws Exception {
+		patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
 
-}
+		Optional<List<PatientVisit>> p = searchPatientVisitByDateOfSubmission(dateOfSubmission);
+		if(!p.isEmpty()) {
+			out.println(p.toString());
+			}else {
+				p.get();
+			}
+		}
+
+
+	public void viewVisits(PrintWriter out) throws Exception {
+		patientvisits=(List<PatientVisit> ) ResourceManager.load("files//patientvisits.ser");
+
+		patientvisits.forEach(out:: println);		
+	}		
+	
+	
+	
+	}
+
+
+
+
+
+	
