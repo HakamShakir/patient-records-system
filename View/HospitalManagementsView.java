@@ -1,7 +1,11 @@
 package login_package;
 
+
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -13,6 +17,7 @@ import creating_views.PatientRecords;
 import creating_views.PatientVisits;
 import creating_views.Position;
 import creating_views.Receptionists;
+import creating_views.ResourceManager;
 
  class HospitalManagementsView {
 
@@ -22,12 +27,11 @@ import creating_views.Receptionists;
 	private PatientVisits pv = new PatientVisits(Lists.pvList);
 	private Scanner in = new Scanner(System.in);
 	
-
 	
-	protected HospitalManagementsView(String userName , String password) throws Exception {
+	protected HospitalManagementsView(String userName , String password,PrintWriter out,BufferedReader in) throws Exception {
 		
 		while(true) {
-			System.out.println(
+			out.println(
 			"enter the values that are dedicated to the \n" +
 			"-------operations that you want---------- \n" +
 			"-------Enter 1 to view patient Records without their visits details------- \n"+
@@ -37,6 +41,7 @@ import creating_views.Receptionists;
 			"-------Enter 5 to search patient record by name------- \n"+
 			"-------Enter 6 to return all patients names------- \n"+
 			"-------Enter 7 to add Dr info------- \n"+
+			"-------Enter 8 to add Receptionist info------- \n"+
 			"-------Enter 8 to add Receptionist info------- \n"+
 			"-------Enter 9 to search Receptionist by name------- \n"+
 			"-------Enter 10 to remove Receptionist by id------- \n"+
@@ -49,60 +54,156 @@ import creating_views.Receptionists;
 			"------------------------------------------------------------------------- \n"+
 			"if you want to exit this program please enter 0: \n");
 			
-			String options = in.next();
-			
+			out.println("###");
+			String options = in.readLine();
+	
 			switch(options){
 				
 			
 			case "1" :
-				pr.viewRecords();
+				
+				pr.viewRecords(out);
 				break;
 			
 			case "2":
-				pv.viewVisitsBypId(enterId());
+				out.println("enter the id that you wanna perform an operation on it: ");
+				out.println("###");
+				int ids = Integer.parseInt(in.readLine());
+				pv.viewVisitsBypId(ids, out);
 				break;
 				
 			case "3":
-				pv.viewVisits();
+				pv.viewVisits(out);
 				break;
 			
 			case "4":
-				System.out.println("enter date of submission in M/d/yyyy format: ");
+				out.println("enter date of submission in M/d/yyyy format: ");
 			    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
-			    String userInput = in.next();
+				out.println("###");
+			    String userInput = in.readLine();
 				LocalDate dateOfSubmission = LocalDate.parse(userInput , dateFormat);
-				pv.viewVisitsByDateOfSubmission(dateOfSubmission);
+				pv.viewVisitsByDateOfSubmission(dateOfSubmission,out);
 				break;
 			
 			case "5" :
-				System.out.println("Enter the patient's name :");
-				String pName = in.next();
+				out.println("Enter the patient's name :");
+				out.println("###");
+				String pName = in.readLine();
 				Optional<List<PatientRecord>> searchPatientByName = pr.searchPatientRecordByName(pName);
-				pr.printSearching(searchPatientByName);
+				pr.printSearching(searchPatientByName,out);
 				break;
 			
 			case "6":
-				pr.getPatientNames().forEach(System.out :: println);
+				pr.getPatientNames().forEach(out :: println);
 				break;
 			
 			case "7":
-				this.addDr();
+				out.println("enter the drs informations sequentely :");
+				out.println("enter the userName:");
+				out.println("###");
+				String userName1 = in.readLine();
+				
+				System.out.println("enter the password:");
+				out.println("###");
+				String password1 = in.readLine();
+				
+				System.out.println("enter the name:");
+				out.println("###");
+				String name = in.readLine();
+				
+				System.out.println("enter the phone number:");
+				out.println("###");
+				String phoneno = in.readLine();
+				
+				System.out.println("enter gender:");
+				out.println("###");
+				String g = in.readLine();
+				Gender gender = Gender.valueOf(g.toUpperCase());
+				
+				
+				System.out.println("enter position:");
+				out.println("###");
+				String p = in.readLine();
+				Position position = Position.valueOf(p.toUpperCase());
+				
+				System.out.println(" enter DR's age: ");
+				out.println("###");
+				int age = Integer.parseInt(in.readLine());
+				
+				System.out.println(" enter DR ID: ");
+				out.println("###");
+				int id = Integer.parseInt(in.readLine());
+				
+				System.out.println(" enter salary: ");
+				out.println("###");
+				int salary = Integer.parseInt(in.readLine());
+				
+				System.out.println(" enter years of experience: ");
+				out.println("###");
+				int yearsOfExperience = Integer.parseInt(in.readLine());
+				
+				System.out.println("enter the speciality:");
+				out.println("###");
+				String speciality = in.readLine();
+				
+				drs.addDr(userName1, password1, name, phoneno, gender, position, age, id, salary, yearsOfExperience, speciality);
 				break;
 			
 			case "8":
-				this.addReceptionist();
+				out.println("enter the receptionist informations sequentely :");
+				out.println("enter the userName:");
+				out.println("###");
+				String userNameR = in.readLine();
+				
+				out.println("enter the password:");
+				out.println("###");
+				String passwordR = in.readLine();
+				
+				out.println("enter the name:");
+				out.println("###");
+				String nameR = in.readLine();
+				
+				out.println("enter the phone number:");
+				out.println("###");
+				String phonenoR = in.readLine();
+				
+				out.println("enter gender:");
+				out.println("###");
+				String gR = in.readLine();
+				Gender genderR = Gender.valueOf(gR.toUpperCase());
+				
+				out.println(" enter receptionist's age: ");
+				out.println("###");
+				int ageR = Integer.parseInt(in.readLine());
+				
+				out.println(" enter receptionist's ID: ");
+				out.println("###");
+				int idR = Integer.parseInt(in.readLine());
+				
+				out.println(" enter salary: ");
+				out.println("###");
+				int salaryR = Integer.parseInt(in.readLine());
+				
+				r.addReceptionist(userNameR , passwordR , nameR, phonenoR , genderR , ageR , idR, salaryR);
 				break;
 			
 			case "9":
-				r.printSearching(r.searchReceptionistByName(enterName()));
+				out.println("enter the name :");
+				out.println("###");
+				String namesearchR = in.readLine();
+				r.printSearching(r.searchReceptionistByName(namesearchR));
 				break;
 			
 			case "10":
-				r.removeReceptionistById(enterId());
+				out.println("enter the id that you wanna perform an operation on it: ");
+				out.println("###");
+				int ids1 = Integer.parseInt(in.readLine());
+				r.removeReceptionistById(ids1);
 			break;
 			
 			case "11":
-				r.getReceptionistNames().forEach(System.out :: println);
+				
+				r.getReceptionistNames().forEach(out :: println);
 			break;
 			
 			case "12":
@@ -110,119 +211,47 @@ import creating_views.Receptionists;
 			break;
 			
 			case "13":
-			drs.printSearching(drs.searchDrByName(enterName()));
+				out.println("enter the name :");
+				out.println("###");
+				String namesearch = in.readLine();
+				drs.printSearching(drs.searchDrByName(namesearch));
 			break;
 			
 			case "14":
-			drs.removeDrById(enterId());
+			out.println("enter the id that you wanna perform an operation on it: ");
+			out.println("###");
+			int ids2 = Integer.parseInt(in.readLine());
+			drs.removeDrById(ids2);
 			break;
 			
 			case "15":
 			if(!drs.getDrNames().isEmpty()) {
-				drs.getDrNames().forEach(System.out :: println);
+				drs.getDrNames().forEach(out :: println);
 			}else{
-				System.out.println("no dr is entered yet.");
+				out.println("no dr is entered yet.");
 				break;
 			};
 			break;
 			
 			case "16":
-				drs.viewDoctors();
+				drs.viewDoctors(out);
 			break;
 			case "0":
 				System.exit(0);
 				break;
 				
 			default:
-				System.out.println("please enter a valid option.");
+				out.println("please enter a valid option.");
 			}
 			
 		}
 		
 	}
 	
-	public void addDr() throws Exception {
-		System.out.println("enter the drs informations sequentely :");
-		System.out.println("enter the userName:");
-		String userName = in.next();
-		
-		System.out.println("enter the password:");
-		String password = in.next();
-		
-		System.out.println("enter the name:");
-		String name = in.next();
-		
-		System.out.println("enter the phone number:");
-		String phoneno = in.next();
-		
-		System.out.println("enter gender:");
-		String g = in.next();
-		Gender gender = Gender.valueOf(g.toUpperCase());
-		
-		System.out.println("enter gender:");
-		String p = in.next();
-		Position position = Position.valueOf(p.toUpperCase());
-		
-		System.out.println(" enter DR's age: ");
-		int age = in.nextInt();
-		
-		System.out.println(" enter DR ID: ");
-		int id = in.nextInt();
-		
-		System.out.println(" enter salary: ");
-		int salary = in.nextInt();
-		
-		System.out.println(" enter years of experience: ");
-		int yearsOfExperience = in.nextInt();
-		
-		System.out.println("enter the speciality:");
-		String speciality = in.next();
-		
-		drs.addDr(userName, password, name, phoneno, gender, position, age, id, salary, yearsOfExperience, speciality);
+
+
 	
-	}
-	public void addReceptionist() throws Exception {
-		
-		System.out.println("enter the drs informations sequentely :");
-		System.out.println("enter the userName:");
-		String userName = in.next();
-		
-		System.out.println("enter the password:");
-		String password = in.next();
-		
-		System.out.println("enter the name:");
-		String name = in.next();
-		
-		System.out.println("enter the phone number:");
-		String phoneno = in.next();
-		
-		System.out.println("enter gender:");
-		String g = in.next();
-		Gender gender = Gender.valueOf(g.toUpperCase());
-		
-		System.out.println(" enter DR's age: ");
-		int age = in.nextInt();
-		
-		System.out.println(" enter DR ID: ");
-		int id = in.nextInt();
-		
-		System.out.println(" enter salary: ");
-		int salary = in.nextInt();
-		
-		r.addReceptionist(userName , password , name, phoneno , gender , age , id , salary);
-	
-	}
-	
-	public int enterId() {
-		System.out.println("enter the id that you wanna perform an operation on it: ");
-		int ids = in.nextInt();
-		return ids;
-		}
-	
-	public String enterName() {
-		System.out.println("enter the name :");
-		String name = in.next();
-		return name;
-	}
+
+
 	
 }
