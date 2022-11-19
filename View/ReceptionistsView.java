@@ -1,4 +1,4 @@
-package login_package;
+package View;
 import login_package.Lists;
 
 import java.io.BufferedReader;
