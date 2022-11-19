@@ -1,4 +1,7 @@
 package login_package;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,9 +24,9 @@ class DoctorsView {
 
 	private Scanner in = new Scanner(System.in);
 
-	protected DoctorsView(String userName, String password) throws Exception{
+	protected DoctorsView(String userName, String password,PrintWriter out,BufferedReader in) throws Exception{
 		while(true) {
-			System.out.println(
+			out.println(
 			"enter the values that are dedicated to the \n" +
 			"-------operations that you want---------- \n" +
 			"-------Enter 1 to add patient visit---------- \n"+
@@ -37,14 +40,14 @@ class DoctorsView {
 			"-------Enter 9 to delete patient visit by visit Id------- \n"+
 			"------------------------------------------------------------------------- \n"+
 			"if you want to exit this program please enter 0: \n");
-			
-			String options = in.next();
+			out.println("###");
+			String options = in.readLine();
 			
 			switch(options){
 				
 			case "1" :
-				if(pr.isThePatientExistById(enterId())) {
-				this.addPatientVisit();
+				if(pr.isThePatientExistById(enterId(out,in))) {
+				this.addPatientVisit(out,in);
 				}else{
 				System.err.println("this patient doesn't exist");
 				break;
@@ -59,41 +62,43 @@ class DoctorsView {
 					drId = d.getId();
 					}
 				}
-				pr.searchPatientRecordBydrId(drId).stream().forEach(System.out :: println);
+				pr.searchPatientRecordBydrId(drId).stream().forEach(out :: println);
 				
 				break;
 			
 			
 			case "3":
-				pv.viewVisitsBypId(enterId());
+				pv.viewVisitsBypId(enterId( out,in),out);
 				break;
 				
 			case "4":
-				pv.viewVisitsBydrId(enterId());
+				pv.viewVisits(out);
 				break;
 			
 			case "5":
-				System.out.println("enter date of submission in M/d/yyyy format: ");
+				out.println("enter date of submission in M/d/yyyy format: ");
 			    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
-			    String userInput = in.next();
+				out.println("###");
+			    String userInput = in.readLine();
 				LocalDate dateOfSubmission = LocalDate.parse(userInput , dateFormat);
 				pv.viewVisitsByDateOfSubmission(dateOfSubmission);
 				break;
 			
 			case "6" :
-				System.out.println("Enter the patient's name :");
-				String pName = in.next();
+				out.println("Enter the patient's name :");
+				out.println("###");
+				String pName = in.readLine();
 				Optional<List<PatientRecord>> searchPatientByName = pr.searchPatientRecordByName(pName);
-				pr.printSearching(searchPatientByName);
+				pr.printSearching(searchPatientByName,out);
 				break;
 			
 			case "7":
-				pr.getPatientNames().forEach(System.out :: println);
+				pr.getPatientNames().forEach(out :: println);
 				break;
 			
 			case "8":
 				
-				int pId = enterId();
+				int pId = enterId(out,in);
 				if(pr.isThePatientExistById(pId)) {
 				pr.removePatientRecordById(pId);
 				pv.removePatientVisitByPatientId(pId);
@@ -105,7 +110,7 @@ class DoctorsView {
 			
 			case "9":
 				
-				pv.removePatientVisitsByVisitId(enterId());
+				pv.removePatientVisitsByVisitId(enterId(out,in));
 				break;
 				
 			case "0":
@@ -113,7 +118,7 @@ class DoctorsView {
 				break;
 				
 			default:
-				System.out.println("please enter a valid option.");
+				out.println("please enter a valid option.");
 			}
 			
 		}
@@ -121,46 +126,57 @@ class DoctorsView {
 	
 	
 
-	public void addPatientVisit() throws Exception{
+	public void addPatientVisit(PrintWriter out, BufferedReader in) throws Exception{
 		
-		System.out.println("enter the patient Id:");
-		 patientId = in.nextInt();
+		out.println("enter the patient Id:");
+		out.println("###");
+		patientId = Integer.parseInt(in.readLine());
+		out.println();
 		
-		System.out.println();
-		int visitId = in.nextInt();
+		out.println("###");
+		int visitId = Integer.parseInt(in.readLine());
 		
-		System.out.println("enter drId ID:");
-		int drId = in.nextInt();
+		out.println("enter drId ID:");
+		out.println("###");
+		int drId = Integer.parseInt(in.readLine());
 		
-		System.out.println("enter cheif complaint: ");
-		String chiefComplaint = in.next();
+		out.println("enter cheif complaint: ");
+		out.println("###");
+		String chiefComplaint = in.readLine();
 		
-		System.out.println("enter history of the patient: ");
-		String history = in.next();
+		out.println("enter history of the patient: ");
+		out.println("###");
+		String history = in.readLine();
 		
-		System.out.println("enter date of submission in M/d/yyyy format: ");
+		out.println("enter date of submission in M/d/yyyy format: ");
 	    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
-	    String userInput = in.next();
+	    out.println("###");
+	    String userInput = in.readLine();
 		LocalDate dateOfSubmission = LocalDate.parse(userInput , dateFormat);
 		
-		System.out.println("enter treatments: ");
-		String treatements = in.next();
+		out.println("enter treatments: ");
+		out.println("###");
+		String treatements = in.readLine();
 		
-		System.out.println("enter recommendation: ");
-		String recommendation = in.next();
+		out.println("enter recommendation: ");
+		out.println("###");
+		String recommendation = in.readLine();
 		
-		System.out.println("enter duration: ");
-		String duration = in.next();
+		out.println("enter duration: ");
+		out.println("###");
+		String duration = in.readLine();
 		
-		System.out.println("enter the price: ");
-		double price = in.nextDouble();
+		out.println("enter the price: ");
+		out.println("###");
+		double price = Double.parseDouble(in.readLine());
 		
 		pv.addPatientVisit(patientId, drId , chiefComplaint, history, treatements, recommendation, dateOfSubmission, duration, price,visitId );
 		}
 
-	public int enterId() {
-		System.out.println("enter the id that you wanna perform an operation on it: ");
-		int ids = in.nextInt();
+	public int enterId(PrintWriter out, BufferedReader in) throws NumberFormatException, IOException {
+		out.println("enter the id that you wanna perform an operation on it: ");
+		out.println("###");
+		int ids = Integer.parseInt(in.readLine());
 		return ids;
 		}
 		
