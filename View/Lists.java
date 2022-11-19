@@ -1,4 +1,4 @@
-package login_package;
+package View;
 
 import java.util.ArrayList;
 import java.util.List;
